@@ -1,0 +1,28 @@
+{
+  "name": "pairfilter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode development",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^2.0.0",
+    "bn.js": "^4.12.0",
+    "buffer": "^5.7.1",
+    "decimal.js": "^10.3.1",
+    "dotenv": "^10.0.0",
+    "ethereum-input-data-decoder": "^0.3.5",
+    "ganache-cli": "^6.12.2",
+    "process": "^0.11.10",
+    "prompt": "^1.2.1",
+    "web3": "^1.7.0",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1"
+  }
+}
