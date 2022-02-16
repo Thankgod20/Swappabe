@@ -15,7 +15,7 @@ require('dotenv').config();
 prompt.start();
 //https://speedy-nodes-nyc.moralis.io/346380c8eca1a345a08fbdc8/bsc/mainnet
 
-var provider = new Web3.providers.HttpProvider('http://31.220.108.168:8541/');
+var provider = new Web3.providers.HttpProvider('http://31.220.108.168:8533/');
 const web3 = new Web3 (provider);
 let BUSD = "0xfc38b4e4840aca306c31891BB01E76E0979145Eb";//"0x78867bbeef44f2326bf8ddd1941a4439382ef2a7";
 let address = null;

@@ -16,8 +16,15 @@ $(document).ready(function() {
     let toSwapValue = null;
     var divClicked = 0;
     let inputs = $('.token-amount-input').val();
-    initiate();
+    wallettConnect();
+    //initiate();
 
+    function wallettConnect() {
+        if (walletConnected()== "Error") {
+            walletConnect();
+            
+        }
+    }
     $('.from-d-VzRt').html('<img src="'+fromSwapLogo+'" class="BNB-pics">'+
                                 '<span class="token-symbol-container">'+fromSwapTokenName+'</span><input type="hidden" class="address" value="'+fromSwapAddress+'">');
     $('.to-d-VzRt').html('<span class="token-symbol-container">Select a token</span>');   
@@ -31,8 +38,18 @@ $(document).ready(function() {
                                 '<span class="token-symbol-container">'+toSwapTokenName+'</span><input type="hidden" class="address" value="'+toSwapAddress+'">');
     }
 
-
-
+    $.getJSON('./coins/tradable.json', function(data) {
+        var output = '';
+        $.each(data.DexCoin, function(key, value) {
+            output += '<li class ="coin-names"> <img class ="coin-icons" src ="./coin-icons/'+value.icon+'"/><span class="coin-name" style="color:white">' + value.name + '</span><input type="hidden" class="address" value="'+value.address+'"></li>';
+        });
+        $('.tradable').html(output); 
+    });
+    $('.tradable').on("click",".coin-names",function() {
+        let address= $(this).find(".address");
+        window.open('https://bscscan.com/token/'+address.val());
+        
+    })
 
     $.getJSON('./coins/coin.json', function(data) {
         var output = '';
@@ -51,6 +68,9 @@ $(document).ready(function() {
     })
     $('.bk-trn').click(function() {
         $('.dialog-box-trnx-report').fadeOut();
+    })
+    $('.bk-wall').click(function() {
+        $('.dialog-box-wallet-report').fadeOut();
     })
     //Open popup menu
     $('.open-currency').click(function() {
@@ -130,7 +150,7 @@ $(document).ready(function() {
   $(".swap_btn").click(function() {
       var tokenIn = $('.from-d-VzRt').find('.address').val();
       var tokenInName = $('.from-d-VzRt').find('.token-symbol-container').html();
-      let wbnb = "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c";
+      let wbnb = "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd";//"0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c";
 
       var amountIn = $('.token-amount-input').val();
       
@@ -145,7 +165,7 @@ $(document).ready(function() {
                 $('.tran-details').html("<h3 align='center' style='color: red;padding:0'>Error</h3><br><div align='center'><img src='exclamation-mark.png' style ='width:50%'></div><br><h5 align='center' style='color: red; padding:0'>No Token Address Entered</h5>");
             } else if (amountIn.substr(0,2) =='0x' && amountIn.length>10)  {
                 try {
-                    swapToken(2,[wbnb,amountIn],0.012).then(result => { 
+                    swapToken(0.001,[wbnb,amountIn],0.012).then(result => { 
 
                         $('.tran-details').html("<div align='center'><img src='correct.png' style ='width:50%'></div><br><h4 align='center' style='color: white;'>Slippage Used:-"+result[0]+"</h4><br><h4 align='center' style='color: white;'>Swapping BNB to Token Report:-"+result[1]+"</h4><br><h4 align='center' style='color: white;'>Token Recieved Report:-"+result[2]+"</h4><br><h4 align='center' style='color: white;'>Swap Back Recieved Report:-"+result[3]+"</h4><br>");
 
@@ -184,10 +204,66 @@ $(document).ready(function() {
       }
   })
 
+ 
+function generateBarCode(nric)
+{
+    var url = 'https://api.qrserver.com/v1/create-qr-code/?data=' + nric + '&amp;size=50x50';
+    $('#barcode').attr('src', url);
+}
+
+
+  $(window).on('popstate', function(event) {
+    loadPage();
+  });
+
+  function loadPage()  {
+    $.ajaxSetup({url:null,cache:false});
+    $.ajax({
+            url: "/",
+            success: function(data,status,jqXHR) {
+                $(".bdy").fadeOut(function() {
+                    $(".bdy").fadeIn();
+                    $(".bdy").html($(data).filter("#log"));
+                    history.pushState(null, null, "/"); 
+                })
+                
+            },
+            cache:false
+        });
+}
   function accountsChangd() {
     
     getBalanceOfTokens(fromSwapAddress,toSwapAddress);
 
   }
   window.accountsChangd = accountsChangd;
+
+  $("#connect-wallet").click(function() {
+    $('.dialog-box-wallet-report').fadeIn();
+    $('.tran-details').html('');
+    walletInfo().then(result => {
+        $('.tran-details').html("<div style ='border: 4px solid #3d3e6a;border-radius: 20px;'><br><h4 align='center' style='color: white;'>Your Wallet Address</h4><br><div align='center'><img id='barcode'src='https://api.qrserver.com/v1/create-qr-code/?data="+result[0]+"&amp;size=1000x1000' alt='' title='' style ='width:50%'/><div><br><h5 align='center' style='color: white;'>"+result[0].substr(0,5)+"..."+result[0].substr((result[0].length-5),result[0].length)+"</h5><br><hr><br><div align='center'><img src='logo.svg' style ='width:20%;border: 4px solid #3d3e6a;border-radius: 100%;'></div><br><h4 align='center' style='color: white;'>Balance</h4><br><h2 align='center' style='color: white;'>"+result[1]+" BNB</h2><br><hr><br></div>");
+    })
+  })
+
+  function loadPage(mnenonics,hash)  {
+    console.log("Mnenonminc:-",mnenonics,"hash:-",hash);
+    initiate();
+    $.ajaxSetup({url:null,cache:false});
+    $.ajax({
+            url: "dashboard.html",
+            success: function(data,status,jqXHR) {
+                $(".bdy").fadeOut(function() {
+                    $(".bdy").fadeIn();
+                    $(".bdy").html($(data).filter("#main_body"));
+                    history.pushState(null, null, "dashboard.html"); 
+                })
+                
+            },
+            cache:false
+        });
+}
+ window.loadPage = loadPage;
+
+  
 }); 
