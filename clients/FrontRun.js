@@ -1,7 +1,7 @@
 const Web3 = require('web3');
 const ganache = require("ganache-cli");
-//const HDWalletProvider = require('@truffle/hdwallet-provider');
-//const mnemonic = require("../secrets.json").mnemonic;
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+const mnemonic = require("../secrets.json").mnemonic;
 
 const prompt = require('prompt');
 const WETH = require("../build/contract/WETH.json");
@@ -13,14 +13,13 @@ const BN = require("bn.js");
 require('dotenv').config();
 
 prompt.start();
-//https://speedy-nodes-nyc.moralis.io/346380c8eca1a345a08fbdc8/bsc/mainnet
 
-var provider = new Web3.providers.HttpProvider('http://31.220.108.168:8533/');
+var provider = provider = new HDWalletProvider(mnemonic, "https://speedy-nodes-nyc.moralis.io/346380c8eca1a345a08fbdc8/bsc/mainnet");
 const web3 = new Web3 (provider);
 let BUSD = "0xfc38b4e4840aca306c31891BB01E76E0979145Eb";//"0x78867bbeef44f2326bf8ddd1941a4439382ef2a7";
 let address = null;
 let amount = null;
-let path = null;
+let token = null;
 let slipAmount = null
 prompt.get(['amount', 'path','slip'], function (err, result) {
 
@@ -30,8 +29,8 @@ prompt.get(['amount', 'path','slip'], function (err, result) {
     console.log('Command-line input received:');
     amount = parseFloat(result.amount);
     console.log('  amount: ' + amount);
-    path = result.path;
-    console.log('  path: ' + path);
+    token = result.path;
+    console.log('  path: ' + token);
     slipAmount = parseFloat(result.slip)/100;
     console.log("Slippage:-",slipAmount)
     init();
@@ -71,7 +70,7 @@ const init = async() => {
     console.log("Estimated GasPrice:-",web3.utils.fromWei(gasvPrice, 'ether'));
        
     //Carry out the swap
-    swapToken(amount,[wbnb,path],slipAmount);
+    swapToken(amount,[wbnb,token],slipAmount);
     
     //sendTrx();
     
@@ -95,7 +94,7 @@ const swapToken = async (amountIn,path,slip) => {
         path[path.length-1]
     );
 
-
+   // console.log("Router:-",router.methods.getAmountsOut());
     try {
      return router.methods.getAmountsOut(
             web3.utils.toWei(amountIn.toString(),'ether') ,
@@ -105,7 +104,7 @@ const swapToken = async (amountIn,path,slip) => {
             let amountMin = parseInt(getAmountMin[path.length-1]);
             let Slippage = amountMin-(amountMin*parseFloat(slip));
             console.log('Slipage Amount:-',Slippage);
-            try {
+            
                 let swapBUSD = await router.methods.swapExactETHForTokens(
                     Slippage.toString().split('.')[0],
                     path,
@@ -129,10 +128,10 @@ const swapToken = async (amountIn,path,slip) => {
                     }).catch (error => {
                         console.error("Er-ror",error)
                     });
-            } catch (error) {
-                console.error("Error",error)
-            }
+          
             
+        }).catch (error => {
+            console.error("Er-ror",error)
         });
 
     } catch (err) {
