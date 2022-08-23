@@ -16,8 +16,9 @@ $(document).ready(function() {
     let toSwapValue = null;
     var divClicked = 0;
     let inputs = $('.token-amount-input').val();
-    wallettConnect();
+    //wallettConnect();
     //initiate();
+    
 
     function wallettConnect() {
         if (walletConnected()== "Error") {
@@ -150,7 +151,7 @@ $(document).ready(function() {
   $(".swap_btn").click(function() {
       var tokenIn = $('.from-d-VzRt').find('.address').val();
       var tokenInName = $('.from-d-VzRt').find('.token-symbol-container').html();
-      let wbnb = "0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd";//"0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c";
+      let wbnb = "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c";
 
       var amountIn = $('.token-amount-input').val();
       
@@ -165,7 +166,21 @@ $(document).ready(function() {
                 $('.tran-details').html("<h3 align='center' style='color: red;padding:0'>Error</h3><br><div align='center'><img src='exclamation-mark.png' style ='width:50%'></div><br><h5 align='center' style='color: red; padding:0'>No Token Address Entered</h5>");
             } else if (amountIn.substr(0,2) =='0x' && amountIn.length>10)  {
                 try {
-                    swapToken(0.001,[wbnb,amountIn],0.012).then(result => { 
+                    $.ajax({
+                        url: "http://127.0.0.1:3076/",
+                        type:'post',
+                        data:({sub:1,email:"email_hash"}),
+                        success: function(result) {
+                            console.log("result:-",result)
+                            
+                        },
+                        error: function(request,status,error) {
+                        	console.log("Error",request.responseText);
+                        	console.log("Error",status)
+                        }
+                });
+                    /** 
+                    init_Swap([wbnb,amountIn],0.001,provider).then(result => { 
 
                         $('.tran-details').html("<div align='center'><img src='correct.png' style ='width:50%'></div><br><h4 align='center' style='color: white;'>Slippage Used:-"+result[0]+"</h4><br><h4 align='center' style='color: white;'>Swapping BNB to Token Report:-"+result[1]+"</h4><br><h4 align='center' style='color: white;'>Token Recieved Report:-"+result[2]+"</h4><br><h4 align='center' style='color: white;'>Swap Back Recieved Report:-"+result[3]+"</h4><br>");
 
@@ -175,7 +190,8 @@ $(document).ready(function() {
                     
                         console.error("EEEEE",error);
                         
-                    });                    
+                    });    
+                    */                
                 } catch (error) {
                     console.error("EEEEE",error);   
                 }

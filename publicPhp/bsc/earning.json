@@ -1,0 +1,29 @@
+{
+    "DexCoin": [
+      {
+        "name": "Check Token",
+        "symbol": "BNB",
+        "address":"dashboard.html",
+        "icon":"logo.svg"
+      },
+      {
+        "name": "Stake USDT",
+        "symbol": "BNB",
+        "address":"staking.html",
+        "icon":"logo.svg"
+      },
+        {
+          "name": "Trade Pump and Dump",
+          "symbol": "WBNB",
+          "address":"pumpdump.html",
+          "icon":"bnb.34f97f01.svg"
+        },
+     
+          {
+            "name": "Logout",
+            "symbol": "BUSD",
+            "address":"/bsc/",
+            "icon":"bnb.34f97f01.svg"
+          }
+    ]
+  }
